@@ -1,0 +1,93 @@
+1) Copie des fichiers max, min, var et main dans le repertpoire du lab
+
+2) Compilation des fichiers      gcc -c max.c min.c var.c -fpic
+
+3) Création de la bibliothèque dynamique   gcc *.o -shared -o libname.so
+
+4) Déplacer la bibliothèque créer dans ce nouveau répertoire se trouvant dans /opt/lib créer lors du
+dernier TP.     sudo cp libname.so /opt/lib
+
+5) Compilation du main.c en spécifiant le chemin des des bibliothèques   gcc -c main. /opt/lib
+
+6) Executer   ça marche pas    le compilateur ne reconner pas la bibliothèque
+
+7) Afficher le contenu de la variable echo $LD_LIBRARY_PATH    vide!
+
+8) Ajouter le chemin de votre bibliothèque à cette variable
+	export LD_LIBRARY_PATH=:/home/essaid/Desktop/personal/labs/lab9
+
+9) Compiler le main, exécuter le binaire. Qu’est qu'il se passe 
+	gcc -o test test.c -L. -lname
+	./test
+
+	le maximum du tableau est :30le minimun du tableau est :0la variance est : 2062.800049 le max 		est :30	, le min est :0	, la variance est :2062.800049
+
+10) Faite le nécessaire pour rajouter le chemin de votre bibilothéque d’une maniére permanante
+dans la variable d’environnement LD_LIBRARY_PATH. Exécutez et
+fonctionnement.
+
+	vim .bashrc    export LD_LIBRARY_PATH=:/opt/lib
+
+
+11) Localiser la bibliothèque math « libm.so »
+
+	/lib/x86_64-linux-gnu
+
+12) Identifier le soname et le nom réel de la bibliothèque math  
+
+nom réel: libm-2.26.so
+soname: libm.so.6
+
+
+
+
+13) Nous souhaitons maintenant placer notre nouvelle bibliothèque dans un emplacement standard
+de sorte que tout le monde puisse avoir accès. On souhaite également la protéger en configurant
+les droits d’accès en mode lecture seule. Procédez à copier cette bibliothèque dans usr/lib et
+enlever les droits d’écriture sur votre bibliothèque
+
+	sudo mv libname.so /usr/lib
+	sudo chmod 555 libname.so
+
+14) Mettez à jour le chargeur la cache du ld.so via la commande ldconfig pour que votre
+bibliothèque soit prête à l’utilisation
+
+		ldconfig ld.so    http://www.man-linux-magique.net/man8/ldconfig.html
+
+
+
+
+15) Vérifier que ça été bien fait en appelant l’option –p de ldconfig et via la commande grep
+
+	ldconfig -p 
+
+
+16) Assurez vous de l'existence de la bibliothèque dans /usr/lib avec la commande ldd.
+
+	ldd (List the Dynamic Dependency) 
+
+	ldd /usr/lib/libname.so
+	linux-vdso.so.1 (0x00007ffc375b6000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f2b2b88d000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007f2b2be80000)
+
+17) Désactiver la variable d’environnement LD_LIBRARY_PATH
+
+	vim .bashrc     puis supprimer le chemin vers la bibliothèque dans  LD_LIBRARY_PATH
+	source ~/.bashrc    pour activer les modifications
+
+18) Compilez votre main en indiquant uniquement le nom de la bibliothèque via l’option -l
+
+	gcc -c test.c -lname     
+
+19) Executer et vérifier le bon fonctionnement de votre code
+
+	ça marche!!!!
+	le maximum du tableau est :30le minimun du tableau est :0la variance est : 2062.800049
+
+
+
+
+
+
+

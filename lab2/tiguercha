@@ -1,0 +1,9 @@
+ hello M2 syscom
+
+la commande pour créer un fichier est touch + nom du fichier
+
+la commande pour créer un répertoire est  mkdir + nom du répertoire
+
+pour enregister une ligne ecrire dans un fichier  echap + : + w 
+pour quitter l'editeur de text   echap + : + q 
+

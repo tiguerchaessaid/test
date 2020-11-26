@@ -1,0 +1,185 @@
+******************************lab10 Makfile*********************************
+1. Recopiez toujours les fichiers max.c, min.c, var.c, max.h, min,h, var.h et test de la partie 7.
+
+2. Créer un makefile permettant de compiler les fichiers sources et de créer un binaire de
+sortie. Dans ce makefile, créer les cibles suivantes en activant à chaque fois l’option –Wall
+
+make My-binaire
+gcc -c max.c
+gcc -c min.c
+gcc -c var.c
+gcc -c test.c
+gcc -Wall max.o min.o var.o test.o -o My-binaire
+
+3. Exécuter les commandes suivantes :
+
+=>make  
+mv My-binaire /home/essaid/Desktop/personal/labs/lab10
+mv: 'My-binaire' et '/home/essaid/Desktop/personal/labs/lab10/My-binaire' identifient le même fichier
+makefile:2: recipe for target 'Install' failed
+make: *** [Install] Error 1
+
+=> make Install 
+mv My-binaire /home/essaid/Desktop/personal
+
+=> make min.o
+make: « min.o » est à jour.
+
+=> make clean
+
+rm *.o	
+
+
+4. Modifier le makefile en rajoutant les macro suivants.
+
+CC = gcc
+OBJ = max.o min.o var.o
+
+5. Redéfinissez la macro CC_OPTIONS à –g-Wall sur la ligne de commande qui permet
+d’appeler le makefile. Vérifier que cette modification à été prise en compte.
+
+sur le terminal:
+
+make CC_OPTIONS='-g-Wall'
+
+
+6. Proposer un nouveau makefile en remplaçant le nom de la cible et la liste des dépendances
+par les variables automatiques. La liste des variables automatiques que vous avez à rajouter
+dans votre makefile est donnée comme suit :
+• $@ : nom de la cible ;
+• $< : première dépendance de la liste des dépendances ;
+• $^ : toutes les dépendances ;
+
+
+
+#Ceci est la deuxieme version du makefile
+
+My-binaire: ${OBJ}
+        ${CC} ${CC_OPTIONS } $^  -o $@
+
+
+
+
+
+
+7. Nous souhaitons pouvoir créer un binaire en mode debug ou en mode distribution release
+suivant le souhait de l’utilisateur. Définissez une variable DEBUG dans votre makefile et
+rajouter les modifications suivantes :
+• Si DEBUG = yes, la compilation sera en mode debug.
+• Sinon la compilation sera en mode release.
+
+
+
+
+DEBUG=
+
+My-binaire: ${OBJ}
+ifeq ($(DEBUG),yes)
+        echo "Copilation en mode DEBUG"
+        ${CC} ${CFLAGS} $^  -o $@
+
+else
+        echo "Compliation en mode DISTRIBUTION RELEASE"
+        ${CC} ${CC_OPTIONS} $^  -o $@
+
+endif
+
+
+8. Tester vos modifications et vérifier le bon fonctionnement de votre makefile.
+
+9. Afficher le mode de compilation utilisé en rajoutant la commande echo dans votre makefile.
+
+=> déja fait en ques8
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

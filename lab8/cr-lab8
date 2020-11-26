@@ -1,0 +1,229 @@
+************************************************Création et utilisation des bibliothèques*********************************************
+
+1) Copie des fichiers min et max 
+
+2) Compilation des fichiers sources max.c et min.c
+  
+
+   gcc -c max.c
+   gcc -c min.c
+
+3) Création de la bibliothèque liboutils.a
+
+
+ar r liboutils.a  max.o  min.o
+
+
+4) Vérification des fichiers .o dans la bibliothèque 
+	ar -t liboutils.a 
+	max.o
+	min.o
+
+
+
+5) Générer un index pour la bibliothèque
+
+     ranlib  liboutils.a
+
+L’outil ranlib permet de créer un index des ressources présentes dans une
+bibliothèque statique et d’incorporer cet index à l’intérieur de la
+bibliothèque.
+gènere un index pour avoir acces rapide à la bibliothèque
+ranlib génère un index du contenu d'une bibliothèque et il sera stocké dedans.
+
+nm -s liboutils.a pour lister l'index.
+
+6) Création d'un fichier  main.c
+Innitialisation d'un tableau de 7 éléments 13 12 5 1 19 13 17
+Appel des fonctions max et min
+
+7) Création des répertoires include et lib dans /opt
+sudo  mkdir   /opt/include
+sudo  mkdir  /opt/lib
+
+8) Déplacement de max.h et min.h dans include
+
+sudo mv max.h /opt/include
+sudo mv min.h  /opt/include
+
+Déplacement de liboutils  dans lib
+
+sudo mv liboutils  /opt/lib
+
+
+9) Supression des fichiers .o et max.c et min .c
+Compilation avec la bibliotèque liboutils.a
+
+gcc -Wall main.c -L/opt/lib -I/opt/include -loutils -o executable.exe
+
+
+10) Tester le bon fonctionnement de votre programme.
+
+./executable.exe
+
+le maximum du tableau est :19le minimun du tableau est :1 le max est : 19	, le min est : 1
+
+
+
+11) Nous souhaitons rajouter dans la bibliothèque liboutils.a une nouvelle fonction arithmétique var.
+Récupérer le fichier var.c. Compiler ce fichier. Rajouter cette fonction à la bibliothèque
+liboutils.
+	sudo ar r /opt/lib/liboutils.a var.o
+
+
+
+12) Vérification de la présence de var.o dans la bibliothèque
+	ar -t /opt/lib/liboutils.a 
+	max.o
+	min.o
+	var.o
+
+
+13) Utiliser la commande ranlib et nm pour mettre à jour la l’indexe et vérifier la présence des
+fichier .obj des fonctions.
+
+	nm -s /opt/lib/liboutils.a 
+
+
+	Indexe de l'archive :
+	max in max.o
+	min in min.o
+	variance in var.o
+
+	max.o:
+        	         U _GLOBAL_OFFSET_TABLE_
+	0000000000000000 T max
+        	         U printf
+
+	min.o:
+        	         U _GLOBAL_OFFSET_TABLE_
+	0000000000000000 T min
+        	         U printf
+
+	var.o:
+        	         U _GLOBAL_OFFSET_TABLE_
+        	         U printf
+	0000000000000000 T variance
+
+
+14) Utiliser la fonction var dans main.c pour calculer la variance du tableau. Compiler. Tester et
+vérifier le bon fonctionnement.
+
+gcc -Wall main.c -L/opt/lib -I/opt/include -loutils -o exefinal.exe
+	
+
+15) Nous allons maintenant utiliser les fonctions ceil et floor de la bibliothèque math standard
+existante. Dans le main, utilisez ces deux fonctions pour arrondir le résultat de la variance que
+vous avez déjà calculez.
+
+	gcc -Wall main.c -L/opt/lib -I/opt/include -loutils -lm -o application.exe
+
+16) Compiler, Exécuter et vérifier les résultats.
+	./application.exe
+	le maximum du tableau est :19
+	le minimun du tableau est :1
+	la variance est : 851.142883
+	 la valeur arrondie de la variance est floor: 851.000000
+ 	ceil:  852.000000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

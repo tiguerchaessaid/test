@@ -1,0 +1,52 @@
+***************************************lab6*********************************
+
+****************************************************************************
+******************variables d'envirennement*********************************
+printenv  >>afficher les variables d'envirennement
+printenv + nom_varible  >> affiche la variable 
+export >> pour rendre la variable accessible par tout les script shell
+unset >> supprimer une variable
+
+
+
+
+1) env >> HOME=/home/essaid
+
+2) echo $PATH >> /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+Explication: la variable PATH donne le chemin d'access vers les repertoires qui sont indiqués.
+
+3) création d'un bash script permettant d'afficher les processus en cour d'exécution
+
+script_file : process.sh        home/essaid/labs/lab6/process.sh
+
+	ps -elf
+
+ ou bien 
+
+  >> top       q: pour quitter
+
+
+4) déplacement du script dans le répertoire /opt
+  >>  sudo mv /home/essaid/Documents/labs/lab6/process.sh /opt
+
+5) On rajoute le chemin d'acces à proccess.sh à PATH        PATH=$PATH:/opt
+
+  
+6) Fermer votre terminal et relancer le via le raccourci (ctrl-alt-t sous Ubuntu).
+Essayer de relancer le script. Que se passe t’il.
+
+
+
+7) Le fichier scrip qui s'execute automatiquement lors du démarage d'un nouveau terminal est .bashrc 
+
+export opt_path=/opt
+export PATH=$PATH:$opt_path
+
+
+8) Relance l'execution du programme à partir de HOME  ça marche pas
+
+
+
+
+
+

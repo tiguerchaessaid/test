@@ -1,0 +1,9 @@
+1. Aller vers le répertoire C:\MU5SP05\nomfamille-gr[1 ou 2] (Suivant votre numéro de groupe)													   fait
+
+2.Remplacer [nom de famille ] par le votre. Ce répertoire sera uniquement par vous le long des différentes séances de TP (Ne pas toucher aux répertoires de vos collègues).                        fait
+
+3. Démarrer Vmware. Cliquer sur open Virtual machine. Sélectionner le répertoire MU5SP05  ->nomfamille-gr[] et ensuite syscom.                                                                     fait
+
+4.Sur le workspace détaillant la liste des machines, cliquer droit sur syscom et sélectionner setting. Dans l'onglet options, mettez votre nom de famille à la place de syscom. Cliquez sur OK.    fait
+
+5. Démaerrer l'OS en cliquant sur play. Afficher le Desktop en mode full-screen. Le login de votre compte est student et le mots de passe est spi.                                                 fait
