@@ -1,0 +1,87 @@
+
+				Commandes shell fondamentales
+
+pour afficher la taille d'un fichier    -> commande : ls -lrt
+1) Ouvrer votre session sous ubuntu.     	fait
+2. Démarrer un terminal.     			fait
+3. Récupérer le dossier du lab3 3 en faisant appel à la commande git clone à partir
+de l’URL fournit sur le channel du slack.		
+git clone
+
+4) LA LISTE DES FICHIERS  4 fichiers de taille 4096 Oct
+
+6) la commande "du" + nom du fichier  -> donne la taille du fichier seul
+    la commande "ls -lrt " donne la taille du fichier sur le disque  
+le fichier occupe une mémoire plus grande que la taille du fichier tout seul
+
+7) Utiliser la commande stat pour afficher les informations correspondantes au
+fichier Microsoft. Analyser les informations dans le fichier inode (indexed
+node file).
+  Fichier : Microsoft
+   Taille : 34359     	Blocs : 72         Blocs d'E/S : 4096   fichier
+Périphérique : 801h/2049d	Inœud : 430058      Liens : 1
+Accès : (0766/-rwxrw-rw-)  UID : (    0/    root)   GID : (    0/    root)
+Accès : 2020-10-07 17:39:08.015935000 +0200
+Modif. : 2020-10-07 17:39:08.392228000 +0200
+Changt : 2020-11-25 20:49:01.027936350 +0100
+  Créé : -
+
+
+8) le fichier caché est .lightbulb
+9) ls -lart ou ls -tr1 pour afficher tout les détails des fichiers contenus dans un répertoire 
+10) ls -r pour afficher les fichiers dans l'ordre plus petit en premier
+    ls -s   -> l'ordre des fichiers  le plus grand en premier
+
+11) pour afficher le contenu d'un fichier   -> cat + le nom du fichier 
+12) pour afficher un text  page par page cat answering-machine.txt | more
+ 
+	cat + nom du fichier + | + more
+13) sudo apt install vim
+14) echap + i 
+    echap + : + w 
+    echap + : + q 
+
+15) Supprimer le mot “gravelly” aprés avoir chercher ce mot via la commande /
+grep gravelly answering-machine.txt 
+
+	a loud, deep, gravelly, horror-film voice he recorded:)  Hi,
+
+
+17) pour chercher un mot   -> 
+
+20) afficher les 20 dernieres ligne du fichier sardar3.txt
+tail -20 sardar3.txt
+21) pour chercher un mot dans un texte donné   -> grep + [mot] + nom_fichier
+22) pour chercher un mot dans plusieurs fichiers  -> grep -r + mot +./
+24) pour modifier le nom d'un fichier   -> mv + nom_fichier1 + nouveau_nom
+25) pour afficher le nom du repertoire actuel  -> pwd    print working directory
+26) pour déplacer un fichier  mv nom_fichier  répertoire_destination
+27) retourner vers le répertoire parent (root)   --> cd ~
+28) supprimer un fichier  --> sudo rm + le chemin d'access
+29) pour archiver des fichiers   --> tar -cvf archive.tar lab3/
+30) liens symbolique  --> ln -s /nom du dossier  nom du lien
+31) non les liens ne sont pas facile à identifier
+32) supprimer le fichier sardar2.txt
+33) rajouter " Master SC" au sardar1.txt
+34) afficher les droits d'un ficher --> ls -l
+35) pour créer une archive   tar jcvf 5AS05-partie3archive.tar.bz2 5AS05-partie3
+36 Créer une archive compresser (.tar.bz2) du répertoire 5AS05-lab3
+
+tar jcvf archivedossier.tar.bz2 5AS05-lab3
+
+
+
+37. Lister les fichiers et répertoire dans le .tar.bz2 sans décompresser le répertoire
+5AS05-lab3.
+
+
+tar jxvf fichier_3.tar.bz2
+
+
+
+
+
+
+
+
+
