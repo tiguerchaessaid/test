@@ -1,0 +1,50 @@
+
+********************* les commandes shell avancées************************
+
+1) Récupération des sources de la partie 4 de slack
+
+2) la commande 'history' permet de voir l'historique de toute les commandes déja utiliséés 
+*****************************************************************************************************************************history
+
+3) pour sauvegarder l'historique dans u fichier:
+*****************************************************************************************************************************histroy > fichier.txt
+
+4) pour concaténer les fichiers sardar1.txt et sardar2.txtetsardar3.txt :
+*****************************************************************************************************************************cat sardar1.txt  sardar2.txt  sardar3.txt  > nom_fichier_destination
+
+5) dans le fichier sardar_power il ya 1980 lignes et 16783 mots et   101780 octects
+   pour voir uniquement le nombre de lignes :
+
+ ****************************************************************************************************************************wc -l + nom_fichier
+
+6) pour afficher toutes lrs ligns contenants le mot "singh" sans faire de distinction entre majiscule et miniscule :
+*****************************************************************************************************************************grep -i + sardar_power.txt
+
+7) supprimer le fichier sardar_power.txt : **********************************************************************************rm  sardar_power.txt
+
+8) afficher toutes les lignes qui contiennent le mot "singh" dans tous les fichiers de sardar :
+   ******************************************************************************************************************grep -i singh sardar1.txt sardar2.txt sardar3.txt  ou bien grep -ri singh   r: récursive
+
+9) compter le nombre de lignes obtenues  :  ************************************************************************grep -ri singh | wc -l 
+  >>123
+
+10) compter les lignes qui contiennet que singh et santa   : *******************************************************grep -ri singh | grep -ri santa | wc -i
+  >>114
+
+11) compter que les lignes qui contiennet singh et santa mais pas banta  :******************************************grep -ri singh | grep -ri santa | grep -rv banta | wc -i
+  >> 112
+
+12) il y'a un seul fichier qui finisse par .txt et c'est answering_machine.txt
+
+13) pour copier le fichier answering-machine.txt dans le fichier test-commande-locate*******************************cp answering-machine.txt  test-commande-locate
+  
+ locate test-commande-locate  ne trouve pas le fichier 
+
+14) updatedb : updatedb: can not open a temporary file for `/var/lib/mlocate/mlocate.db'
+
+15) comparer deux fichier :***************************************************************************************** diff fichier1 fichier2      diff -u fichier1 fichier2
+
+16) mettre à jour le fichier noyau.v2 avec les lignes de noyau.v1 : 
+     ***************************************************************************************************************diff -u noyau.v1  noyau.v2 > update.patch.diff 
+
+

@@ -1,0 +1,48 @@
+    1  sudo loadkeys fr
+    2  azerty
+    3  sudo apt install git gitk git-email
+    4  git config--global user [essaid]
+    5  git config --global user [essaid]
+    6  git config --global user.name [essaid]
+    7  git config --global user.email [essaidtiguercha15@gmail.com]
+    8  git config --global user.name
+    9  git config --global user.email
+   10  cd~
+   11  cd Documents
+   12  cd labs
+   13  ls
+   14  cd Labs
+   15  clone https://github.com/tiguerchaessaid/lab2.git
+   16  git clone https://github.com/tiguerchaessaid/lab2.git
+   17  ls
+   18  cd Lab2
+   19  lab2
+   20  cd lab2
+   21  ls]
+   22  ls
+   23  cd ..>
+   24  cd ../
+   25  git clone https://github.com/tiguerchaessaid/lab3.git
+   26  setxkbmap fr
+   27  a
+   28  sudo keyboard fr
+   29  sudo loadkeys fr
+   30  setxkbmap fr
+   31  git clone https://github.com/safiabou/lab-3.git
+   32  setxkbmap fr
+   33  fr
+   34  ls
+   35  cd Documents
+   36  ls
+   37  cd Labs
+   38  ls
+   39  mkdir lab4
+   40  cd lab4
+   41  touch rapportlab4
+   42  vim rapportlab4 
+   43  sudo apt install vim
+   44  vim rapportlab4 
+   45  git clone https://github.com/khachicha/5AS05-partie4.git
+   46  history
+   47  histroy > fichier.txt
+   48  history > fichier.txt
