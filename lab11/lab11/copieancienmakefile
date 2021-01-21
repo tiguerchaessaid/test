@@ -1,0 +1,36 @@
+CC=gcc
+OBJ= max.o min.o var.o test.o
+
+
+
+
+
+
+
+
+My-binaire: ${OBJ}	 
+	${CROSS_COMPILE}gcc -Wall ${OBJ}  -o My-binaire
+
+#Ceci est la premiere version du makefile
+max.o: max.c max.h
+	
+	${CROSS_COMPILE}gcc -c max.c max.h
+
+min.o: min.c min.h
+		
+	${CROSS_COMPILE}gcc -c min.c min.h
+
+var.o: var.c var.h
+	
+	${CROSS_COMPILE}gcc -c var.c var.h
+
+test.o: test.c
+	
+	${CROSS_COMPILE}gcc -c test.c
+
+
+clean:
+	  
+	rm *.o  My-binaire
+
+
