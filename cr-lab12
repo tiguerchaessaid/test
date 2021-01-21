@@ -1,0 +1,200 @@
+ 							Lab 12: U-Boot sur une Mini-Sdcard
+
+
+1. Cloner the mainline U-boot sources. L’URL du git est la suivante:
+https://github.com/u-boot/u-boot.git
+
+essaid@ubuntu:~/Desktop/personal/labs/lab12$ ls
+cr-lab12  u-boot  Uboot-sdcard.pdf
+essaid@ubuntu:~/Desktop/personal/labs/lab12$ 
+essaid@ubuntu:~/Desktop/personal/labs/lab12$ cd u-boot/
+essaid@ubuntu:~/Desktop/personal/labs/lab12/u-boot$ ls
+api    common     doc      examples  Kconfig      Makefile  scripts
+arch   config.mk  drivers  fs        lib          net       test
+board  configs    dts      include   Licenses     post      tools
+cmd    disk       env      Kbuild    MAINTAINERS  README
+
+2. Changer vers la branche v2018.05
+#Hint : git checkout ${nom de la branche}
+
+
+
+3. Vérifier que vous êtes sur la bonne branche
+#Hint: pour vérifier que vous êtes bien sur la branche : git branch
+
+
+
+
+
+4. Chercher le fichier de defconfig correspondant à votre carte (Processeur am335, carte
+beagle bone black). Voir figure çi dessous. La liste des fichiers de defconfig est situé dans
+le répertoire u-boot/configs.
+
+ls * | grep black
+
+am335x_boneblack_defconfig
+
+
+Le fichier s'appelle: am335x_boneblack_defconfig
+
+
+
+/home/essaid/Desktop/personal/labs/lab12/u-boot/configs/ am335x_boneblack_defconfig
+
+
+
+5. Lancer make defconfig_file correspondant à votre carte. Vérifier qu’un fichier .config est
+généré dans le répertoire principale de U-boot. Afficher le fichier .config. 
+Expliquez le contenu de ce fichier.
+Modifier la variable CONFIG_SYS_PROMPT en mettant votre nom
+de famille suivie par un –uboot : $(votre-nom-famille)-uboot=>.
+
+
+
+essaid@ubuntu:~/Desktop/personal/labs/u-boot$ ls
+api    common     doc            env       Kbuild    MAINTAINERS  README           tools
+arch   config.mk  Documentation  examples  Kconfig   Makefile     scripts
+board  configs    drivers        fs        lib       net          snapshot.commit
+cmd    disk       dts            include   Licenses  post         test
+essaid@ubuntu:~/Desktop/personal/labs/u-boot$ make am335x_boneblack_defconfig
+  HOSTCC  scripts/basic/fixdep
+  HOSTCC  scripts/kconfig/conf.o
+  SHIPPED scripts/kconfig/zconf.tab.c
+  SHIPPED scripts/kconfig/zconf.lex.c
+  SHIPPED scripts/kconfig/zconf.hash.c
+  HOSTCC  scripts/kconfig/zconf.tab.o
+  HOSTLD  scripts/kconfig/conf
+#
+# configuration written to .config
+#
+
+
+
+!!!!! c'est un fichier caché    .config
+
+CONFIG_SYS_PROMT="tiguercha-uboot=>"
+
+6. Lancer la commande de compilation make. Vérifier que vous arrivez à générer les deux
+fichiers MLO et u-boot.img.
+
+
+
+essaid@ubuntu:~/Desktop/personal/labs/u-boot$ ls
+api    cmd        configs  Documentation  env       include  lib          Makefile      net     scripts          System.map  u-boot      u-boot.cfg.configs  u-boot.map        u-boot.sym
+arch   common     disk     drivers        examples  Kbuild   Licenses     MLO           post    snapshot.commit  test        u-boot.bin  u-boot.img          u-boot-nodtb.bin
+board  config.mk  doc      dts            fs        Kconfig  MAINTAINERS  MLO.byteswap  README  spl              tools       u-boot.cfg  u-boot.lds          u-boot.srec
+
+
+
+
+7. Nous allons maintenant préparer une carte amorçable micro-SD sur laquelle nous allons
+porté un linux. Prenez une carte micro-SD et connectez-la à votre PC:
+Cas 1: Soit en utilisant un emplacement SD direct si disponible. Dans ce cas, la carte doit
+être considérée comme "/dev/mmcblk0" par votre ordinateur (vérifiez le résultat de la
+commande "dmesg").
+Cas 2: Soit en utilisant un lecteur de carte mémoire. Dans ce cas, la carte doit être
+considérée comme "/dev /sdb" ou "/dev/sdc", etc.
+
+
+
+8. Exécutez la commande mount pour vérifier les partitions de la carte SD.
+
+9. Faite appel à la commande `sudo fdisk -l` après branchement de la carte SD pour bien
+identifier le nom du périphérique. Également faite le avec la commande dmesg. Faite
+attention, ne touchez jamais au disque sda.
+
+
+essaid@ubuntu:~$ sudo fdisk -l
+
+
+Disque /dev/sdc : 3.8 GiB, 4025483264 octets, 7862272 secteurs
+Unités : secteur de 1 × 512 = 512 octets
+Taille de secteur (logique / physique) : 512 octets / 512 octets
+taille d'E/S (minimale / optimale) : 512 octets / 512 octets
+Type d'étiquette de disque : dos
+Identifiant de disque : 0x00000000
+
+Périphérique Amorçage Début     Fin Secteurs Taille Id Type
+/dev/sdc1    *         8192 7862271  7854080   3.8G  e W95 FAT16 (LBA)
+
+
+
+
+
+10. Démontez-la partition avec la commande umount selon la manière dont le système voit le
+périphérique de carte média.
+#Hint: umount /dev/nom de la partition
+
+
+
+
+11. Effacer la table de partition de la carte SD en éffaçant le premier Mo de la carte sd via la
+commande dd. Faite appel au device virtuel /dev/zero pour copier des zero dans le premier
+Mo
+#hint : sudo dd if=/dev/zero of=/dev/peripherqiue bs=1024 count=1024 (block size 1024, count 1024)
+
+sudo dd if=/dev/zero of=/dev/sdc bs=1024 count=1024
+
+
+REM: formater la carte SD : effacer toute les partitions
+
+1024+0 enregistrements lus
+1024+0 enregistrements écrits
+1048576 bytes (1.0 MB, 1.0 MiB) copied, 0.00600199 s, 175 MB/s
+
+
+
+12. Utiliser la commande cfdisk /dev/nom de votre device pour vérifier que la table de partition
+de la carte SD est vide. Créer une nouvelle partition en séléctionnant dans le menu label type
+le type dos, Ensuite, cochez la case amorcable et sélectionnez le type 0E (W95 FAT16
+(LBA)) que vous trouverez dans la liste des types. N’oubliez pas de réaliser l’opération
+d’écriture sur la carte SD.
+
+
+
+cfdisk /dev/sdc
+
+
+
+REM: formater la carte SD : effacer toute les partitions
+
+
+Amorçable : c'est un boot sur le quel je peut booter
+
+
+
+13. Formattez la partition que vous avez créer et donner le nom boot à cette partition.
+# Hint : sudo mkfs.vfat -F 32 /dev/sdc1 -n boot
+
+
+
+14. Retirez la carte et insérez-la à nouveau. Il devrait être monté automatiquement sur
+'/media/$USER/boot'. Copiez les deux fichiers générés MLO et u-boot.img sur cette
+partition.
+
+ sudo cp MLO u-boot.img  /media/essaid/boot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
