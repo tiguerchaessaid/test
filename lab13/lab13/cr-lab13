@@ -1,0 +1,209 @@
+********************************************Lab 13 : Booting the Beagle Board**********************************
+
+
+1. Cloner la documentation se trouvant dans le git çi dessous.
+https://github.com/CircuitCo/BeagleBone-Black/
+
+
+essaid@ubuntu:~/Desktop/personal/labs/lab13/BeagleBone-Black$ ls
+BBB_BOM.xls  BBB.md5  BBB_PCB.zip  BBB_SCH.pdf  BBB_SCH.zip  BBB_SRM.pdf  README.md
+
+
+
+
+Nous cherchons à booter la carte Beagle bone sur la carte SD. En s’appyant sur le document
+BBB_SRM.pdf, identifier le button poussoir permettant de changer le mode de boot (sur EMMC ou
+sur carte SD) et expliquer comment vous allez pouvoir booter sur la carte SD.
+
+
+
+page 31  boot switch
+BOOT switch can be used to force a boot from the microSD card if the power is
+cycled on the board, removing power and reapplying the power to the board
+
+
+Enfin, téléchargez le Manuel de référence technique (TRM) du SoC TI AM3359, disponible à
+l’adresse https://www.ti.com/product/am3359, dans l’onglet User guide, télécharger le processor
+technical reference Manuel. Identifier dans ce document le numéro du canal d’interruption associé
+au Timer0.
+
+
+
+TINT0     page 544
+
+
+
+2. Récupérer votre carte micro-SD amorçable que vous avez préparé lors de la partie 12. Insérer la
+carte micro-SD dans le logement correspondant de la carte. Faite attention a fin de respecter le sens
+de l’insertion.
+
+
+
+3. Le connecteur série Beaglebone est exporté sur les 6 broches proches du connecteur à 48 broches.
+À l’aide de l’adaptateur USB / série spécial fourni par votre instructeur et de la documentation
+BBB_SRM, connectez le fil de terre (bleu), et les fils TX (rouge) et RX (vert) au broches de la
+carte. Assurez-vous de toujours connecter la broche TX du câble à la broche RX de la carte et
+inversement, quels que soient la carte et les câbles que vous utilisez
+
+
+
+
+Page 91
+
+
+
+4. Une fois que le connecteur USB vers série est branché, un nouveau port série doit apparaître :
+/dev/ttyUSB0. Vous pouvez également voir cet appareil apparaître en regardant la sortie de dmesg.
+
+ls | grep ttyUSB0
+
+
+5. Pour communiquer avec la carte via le port série, installez un programme de communication
+série, tel que picocom.
+apt install nom-outils
+#Hint : apt install nom-outils
+
+
+
+6. Si vous exécutez ls -l /dev/ttyUSB0, vous pouvez également voir que seuls les utilisateurs root et
+appartenant au groupe dialout ont un accès en lecture et en écriture à ce fichier. Par conséquent,
+vous devez ajouter votre utilisateur au groupe dialout
+# Hint sudo adduser $USER dialout
+
+essaid@ubuntu:/dev$ ls -l /dev/ttyUSB0
+crw-rw---- 1 root dialout 188, 0 Dec 17 10:13 /dev/ttyUSB0
+essaid@ubuntu:/dev$ 
+
+
+
+essaid@ubuntu:/dev$ sudo adduser essaid dialout
+[sudo] Mot de passe de essaid : 
+Ajout de l'utilisateur « essaid » au groupe « dialout »...
+Ajout de l'utilisateur essaid au groupe dialout
+Fait.
+
+
+
+# cat /etc/group : Permet d'afficher la liste des personnes appartenant à un groupe donné.
+
+
+
+
+
+
+
+
+7. Vous pouvez maintenant lancer picocom -b 115200 / dev / ttyUSB0 pour lancer la
+communication série sur /dev/ttyUSB0, avec une vitesse de transmission de 115200. Si vous
+souhaitez quitter picocom, appuyez sur [Ctrl] [a] suivi de [Ctrl] [ X]. Il ne devrait y avoir rien sur la
+ligne série jusqu'à présent, car la carte beagle Board n'est pas encore sous tension.
+
+
+
+
+essaid@ubuntu:~$ sudo picocom -b 115200 /dev/ttyUSB0
+picocom v2.2
+
+port is        : /dev/ttyUSB0
+flowcontrol    : none
+baudrate is    : 115200
+parity is      : none
+databits are   : 8
+stopbits are   : 1
+escape is      : C-a
+local echo is  : no
+noinit is      : no
+noreset is     : no
+nolock is      : no
+send_cmd is    : sz -vv
+receive_cmd is : rz -vv -E
+imap is        : 
+omap is        : 
+emap is        : crcrlf,delbs,
+
+Type [C-a] [C-h] to see available commands
+
+Terminal ready
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+10. Pour éviter tout problème en raison de paramètres appliqués lors de précédents travaux
+pratiques, il est conseillé d'effacer les variables d'environnement U-Boot:
+
+
+Usage:
+saveenv 
+tiguercha-uboot=> env default -f -a
+## Resetting to default environment
+tiguercha-uboot=> saveenv
+Saving Environment to MMC... Writing to redundant MMC(1)... OK
+tiguercha-uboot=> 
+
+
+
+
+
+
+
+
+11. Configuration réseau sur la carte cible Beagle Board
+Configurons l’interface réseau avec U-Boot et plus spécifiquememnt les deux variables suivantes :
+ipaddr: adresse IP de la carte
+serverip: adresse IP de l'hôte PC
+setenv ipaddr 192.168.0.100
+setenv serverip 192.168.0.1
+La première fois que vous utilisez votre carte, vous devez également définir l'adresse MAC dans U-
+boot
+setenv ethaddr 12: 34: 56: ab: cd: ef
+Si la carte a déjà été configurée d'une autre manière, nous désactivons également le démarrage
+automatique après des commandes permettant de copier un noyau dans la RAM:
+setenv autostart no
+
+
+
+
+15. Trouvez le nom de cette interface en tapant:
+ifconfig -a
+#Hint: Si la commande n’est pas installée, il faut installer le package suivant:
+sudo apt-get install net-tools
+
+sur le terminal de la machine host
+
+ens33
+
+
+16. Le nom de l'interface réseau est probablement enxxx. Il est facile de l’identifier car c’est celui
+qui apparaît après le branchement du périphérique. Configurer l’adresse IP de l’hôte à partir de
+l’interface graphique de NetWork Manager,
+
+
+
+
+tiguercha-uboot=> tftp 0x81000000 text.txt
+link up on port 0, speed 100, full duplex
+Using cpsw device
+TFTP from server 192.168.0.1; our IP address is 192.168.0.100
+Filename 'text.txt'.
+Load address: 0x81000000
+Loading: #
+	 1000 Bytes/s
+done
+Bytes transferred = 9 (9 hex)
+tiguercha-uboot=> 
+
+
+
+
